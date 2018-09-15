@@ -32,7 +32,6 @@ public class TTTGame {
     		board.PrintBoard();
     		step++;
 
-
     		for (int count = 0; count < 8; count++) {
      			int ACT = MinMax(board);
     			System.out.println("AI step : " + ACT);
@@ -75,11 +74,10 @@ public class TTTGame {
     		System.out.println("Terminated at step  " + step);
 
 
-
     	} else if (choice.equals("O") || choice.equals("o")) {
     		sign = 1;
     		System.out.println("I (AI) play first");
-    		int stepInit = 1;
+    		int stepInit = MinMax(board);
     		step++;
     		int i = (stepInit - 1)/3;
     		int j = (stepInit - 1)%3;
@@ -124,20 +122,61 @@ public class TTTGame {
     				break;
     			}
     		}
-
     		System.out.println("Terminated at step  " + step);
-
-    	} else if (choice.equals("T"))  {
-    		int ACT = MinMax(board);
-    		System.out.println("AI step : " + ACT);
-    		int i = (ACT - 1)/3;
-    		int j = (ACT - 1)%3;
-    		board.setElement(i, j, "O");
-    		board.PrintBoard();
     	} else {
     		throw new IllegalArgumentException("input must be X or O");
     	}
 	}
+
+	public TTTGame(String AIAI) {
+		step = 0;
+		Board board = new Board(3);
+
+		Scanner scanner = new Scanner(System.in);
+    	System.out.println("This is AI play with AI ");
+
+
+	    for (int count = 0; count < 9; count++) {
+	    	sign = 1;
+			int ACT = MinMax(board);
+			System.out.println("AI1 step : " + ACT);
+			int i = (ACT - 1)/3;
+			int j = (ACT - 1)%3;
+			board.setElement(i, j, "X");
+			step++;
+			board.PrintBoard();
+			if (TerminalTest(board) == 1) {
+				System.out.println("AI1 win");
+				break;
+			} else if (TerminalTest(board) == -1) {
+				System.out.println("AI2 win");
+				break;
+			} else if (TerminalTest(board) == 0) {
+				System.out.println("TIE");
+				break;
+			}   	
+			
+	    	sign = -1;
+			ACT = MinMax(board);
+			System.out.println("AI2 step : " + ACT);
+			i = (ACT - 1)/3;
+			j = (ACT - 1)%3;
+			board.setElement(i, j, "O");
+			step++;
+			board.PrintBoard();
+			if (TerminalTest(board) == 1) {
+				System.out.println("AI1 win");
+				break;
+			} else if (TerminalTest(board) == -1) {
+				System.out.println("AI2 win");
+				break;
+			} else if (TerminalTest(board) == 0) {
+				System.out.println("TIE");
+				break;
+			}   
+
+    	}
+    }
 
 
 	public int MinMax(Board board) {
@@ -184,6 +223,7 @@ public class TTTGame {
 		int branch = openSpace(board);
 		int bran = 0;
 		Board[] actions = new Board[branch];
+
 		for (int n = 0; n < 9; n++) {
 			int i = (n)/3;
     		int j = (n)%3;
@@ -193,8 +233,10 @@ public class TTTGame {
     				actions[bran].setElement(i, j, "X");
     			else
     				actions[bran].setElement(i, j, "O");
+
     			utility = MinValue(actions[bran]);
     			bran++;
+
 				if (utility > V) {
 					V = utility;
 				}
@@ -298,6 +340,6 @@ public class TTTGame {
 
 
 	public static void main (String args[]) {
-		TTTGame newGame = new TTTGame();
+		TTTGame newGame = new TTTGame("AIAI");
 	}
 }
