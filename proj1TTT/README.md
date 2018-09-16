@@ -1,1 +1,2 @@
 1. 0915: implement simple MAXMIN algorithm for adversarial search (TTT). The program is able to play with human and play with itself. The choice is in main method. To play with another AI, do not know how to control read sequence of two AI, how they communicate when to read, which to read.
+2. Add AlphaBetaPrune to the code. add three lines at the end of method MaxValue and MinValue

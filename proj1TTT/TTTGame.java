@@ -199,7 +199,8 @@ public class TTTGame {
 //    			System.out.println("$$$$$$$  LEAD  $$$$$$$");
 //				actions[bran].PrintBoard();
 				// above show all the branches
-				utility = MinValue(actions[bran]);
+				utility = MinValue(actions[bran], 
+					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 //				System.out.println("utility : " + utility);
 				bran++;
 				if (utility > utility_pre) {
@@ -213,7 +214,7 @@ public class TTTGame {
 	}
 
 
-	public Double MaxValue(Board board) {
+	public Double MaxValue(Board board, Double alpha, Double beta) {
 		if (TerminalTest(board) == 1) {return 1.0;}
 		else if (TerminalTest(board) == -1) {return -1.0;}
 		else if (TerminalTest(board) == 0)	{return 0.0;}
@@ -234,19 +235,26 @@ public class TTTGame {
     			else
     				actions[bran].setElement(i, j, "O");
 
-    			utility = MinValue(actions[bran]);
+    			utility = MinValue(actions[bran], alpha, beta);
     			bran++;
 
 				if (utility > V) {
 					V = utility;
 				}
+
+            	if (V >= beta)
+                	return V;
+            	alpha = Math.max(alpha, V);
+
 				if (bran == branch)  break;
+
+
 			}
 		}
 		return V;
 	}
 
-	public Double MinValue(Board board) {
+	public Double MinValue(Board board, Double alpha, Double beta) {
 		if (TerminalTest(board) == 1) {return 1.0;}
 		else if (TerminalTest(board) == -1) {return -1.0;}
 		else if (TerminalTest(board) == 0)	{return 0.0;}
@@ -268,13 +276,18 @@ public class TTTGame {
     				actions[bran].setElement(i, j, "X");
 //    			System.out.println("$$$$$$$  MIN  $$$$$$$" + "branch = " + branch + "bran : " + bran);
 //    			actions[bran].PrintBoard();
-    			utility = MaxValue(actions[bran]);
+    			utility = MaxValue(actions[bran], alpha, beta);
 //    			System.out.println("Min unitility : " + utility);
     			bran++;
 				//utility = 1.0;
 				if (utility < V) {
 					V = utility;
 				}
+
+				if (V <= alpha)
+                	return V;
+            	beta = Math.min(beta, V);
+
 				if (bran == branch) break;
 			}
 		}
@@ -340,6 +353,6 @@ public class TTTGame {
 
 
 	public static void main (String args[]) {
-		TTTGame newGame = new TTTGame("AIAI");
+		TTTGame newGame = new TTTGame();
 	}
 }
