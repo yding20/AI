@@ -39,12 +39,12 @@ public class Board {
 //		board[2][1] = "*";
 //		board[2][2] = "O";
 // Test Case 4 for scores
-//		board[0][0] = "X";
-//		board[0][1] = "X";
-//		board[0][2] = "X";
+//		board[0][0] = "*";
+//		board[0][1] = "*";
+//		board[0][2] = "O";
 //		board[1][0] = "*";
 //		board[1][1] = "*";
-//		board[1][2] = "*";
+//		board[1][2] = "O";
 //		board[2][0] = "*";
 //		board[2][1] = "*";
 //		board[2][2] = "O";
@@ -133,12 +133,12 @@ public class Board {
 		if 		(s3.equals("X"))	{XScore++;}
 		else if (s3.equals("O"))	{OScore++;}
 
-		if 			(OScore == 0 && XScore == 3)		{return  1.0;}
-		else if 	(OScore == 0 && XScore == 2)		{return  0.8;}
-		else if 	(OScore == 0 && XScore == 1)		{return  0.5;}
-		else if 	(XScore == 0 && OScore == 3)		{return -1.0;}
-		else if 	(XScore == 0 && OScore == 2)		{return -0.8;}
-		else if 	(XScore == 0 && OScore == 1)		{return -0.5;}
+		if 			(OScore == 0 && XScore == 3)		{return  200.0;}
+		else if 	(OScore == 0 && XScore == 2)		{return    2.0;}
+		else if 	(OScore == 0 && XScore == 1)		{return    1.0;}
+		else if 	(XScore == 0 && OScore == 3)		{return  200.0;}
+		else if 	(XScore == 0 && OScore == 2)		{return  2.0;}
+		else if 	(XScore == 0 && OScore == 1)		{return  1.0;}
 		else 	return 0.0;
 	}
 

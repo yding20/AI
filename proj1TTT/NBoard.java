@@ -60,6 +60,20 @@ public class NBoard {
 //		Nboard[2][2].setElement(1, 0, "O");
 
 
+//		Nboard[0][0].setElement(0, 0, "X");
+//		Nboard[0][0].setElement(1, 1, "X");
+//		Nboard[0][0].setElement(0, 2, "O");
+//		Nboard[0][0].setElement(2, 2, "O");
+//
+//		Nboard[1][0].setElement(1, 2, "X");
+//
+//		Nboard[1][1].setElement(0, 0, "O");
+//		Nboard[1][1].setElement(1, 0, "O");
+//		Nboard[1][1].setElement(1, 1, "X");
+//
+//		Nboard[1][2].setElement(0, 0, "O");
+//
+//		Nboard[2][2].setElement(0, 0, "X");
 
 	}
 

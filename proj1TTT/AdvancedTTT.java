@@ -7,6 +7,7 @@ public class AdvancedTTT {
 	private NBoard nboard;
 	private int step;
 	private int sign;
+	private int cutoff = 8;
 
 	public AdvancedTTT() {
 		step = 0; 
@@ -139,6 +140,7 @@ public class AdvancedTTT {
 
 	public int MinMax(NBoard nboard, int gridI, int gridJ) {
 		Board board = nboard.getBoard(gridI, gridJ);
+		Board thisstep;
 		int branch = openSpace(board);
 		int bran = 0;
 		int Res = 0;
@@ -152,17 +154,38 @@ public class AdvancedTTT {
     		int j = (n)%3;
 			if (board.getElement(i, j).equals("*")) {
 				Nactions[bran] = new NBoard(nboard);
-				if (sign == 1)
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "X");
-    			else
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "O");
+				if (sign == 1) {
+					thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "X");
+					if (TerminalTest(thisstep) == 1) {utility = 200.0; return n+1;}
+					else if (TerminalTest(thisstep) == -1) {utility = -200.0; return n+1;}
+					else if (TerminalTest(thisstep) == 0)	{utility = 0.0; return n+1;}
+				}
+    			else {
+					thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "O");
+    				if (TerminalTest(thisstep) == 1) {utility = 200.0; return n+1;}
+					else if (TerminalTest(thisstep) == -1) {utility = -200.0; return n+1;}
+					else if (TerminalTest(thisstep) == 0)	{utility = 0.0; return n+1;}
+    			}
 
 //    			System.out.println("&&&&&&&&&&&&& MinMaxValue &&&&&&&&&&&&&");
 //    			Nactions[bran].PrintNBoard();
 
 				utility = MinValue(Nactions[bran], i, j,
 					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depth);
-				System.out.println("utility = " + utility);
+
+//				if (sign == 1) {
+//					if (TerminalTest(thisstep) == 1) {utility = 200.0;}
+//					else if (TerminalTest(thisstep) == -1) {utility = -200.0;}
+//					else if (TerminalTest(thisstep) == 0)	{utility = 0.0;}
+//				} else {
+//					if (TerminalTest(thisstep) == 1) {utility = 200.0;}
+//					else if (TerminalTest(thisstep) == -1) {utility = -200.0;}
+//					else if (TerminalTest(thisstep) == 0)	{utility = 0.0;}
+//				}
+
+//				System.out.println("utility = " + utility + "bran = " + bran);
 				bran++;
 				if (utility > utility_pre) {
 				utility_pre = utility;
@@ -178,10 +201,13 @@ public class AdvancedTTT {
 	public Double MaxValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta, int inputM) {
 		int depth = inputM + 1;
 		Board board = nboard.getBoard(gridI, gridJ);
+		Board thisstep;
+//		System.out.println("Board at MaxValue");
+//		board.PrintBoard();
 
-		if (depth < 7) {
-			if (TerminalTest(board) == 1) {return 1.0;}
-			else if (TerminalTest(board) == -1) {return -1.0;}
+		if (depth < cutoff) {
+			if (TerminalTest(board) == 1) {return 200.0;}
+			else if (TerminalTest(board) == -1) {return -200.0;}
 			else if (TerminalTest(board) == 0)	{return 0.0;}
 		} else {
 			return Heuristic(board);
@@ -198,15 +224,25 @@ public class AdvancedTTT {
     		int j = (n)%3;
 			if (board.getElement(i, j).equals("*")) {
 				Nactions[bran] = new NBoard(nboard);
-				if (sign == 1)
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "X");
-    			else
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "O");
-
-//    			System.out.println("&&&&&&&&&&&&& MaxValue &&&&&&&&&&&&&");
-//    			Nactions[bran].PrintNBoard();
+				if (sign == 1) {
+					thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "X");
+    				if (TerminalTest(thisstep) == 1) {return 200.0;}
+					else if (TerminalTest(thisstep) == -1) {return -200.0;}
+					else if (TerminalTest(thisstep) == 0)	{return 0.0;}
+				}
+    			else {
+    				thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "O");
+    				if (TerminalTest(thisstep) == 1) {return 200.0;}
+					else if (TerminalTest(thisstep) == -1) {return -200.0;}
+					else if (TerminalTest(thisstep) == 0)	{return 0.0;}
+				}
 
     			utility = MinValue(Nactions[bran], i, j, alpha, beta, depth);
+//    			System.out.println("&&&&&&&&&&&&& MaxValue &&&&&&&&&&&&&");
+//    			Nactions[bran].PrintNBoard();
+//    			System.out.println("Maxutility = " + utility + "depth = " + depth);
     			bran++;
 
 				if (utility > V) {
@@ -228,10 +264,13 @@ public class AdvancedTTT {
 	public Double MinValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta, int inputM) {
 		int depth = inputM + 1;
 		Board board = nboard.getBoard(gridI, gridJ);
+		Board thisstep;
+//		System.out.println("Board at MinValue");
+//		board.PrintBoard();
 
-		if (depth < 7) {
-			if (TerminalTest(board) == 1) {return 1.0;}
-			else if (TerminalTest(board) == -1) {return -1.0;}
+		if (depth < cutoff) {
+			if (TerminalTest(board) == 1) {return 200.0;}
+			else if (TerminalTest(board) == -1) {return -200.0;}
 			else if (TerminalTest(board) == 0)	{return 0.0;}
 		} else {
 			return Heuristic(board);
@@ -248,15 +287,25 @@ public class AdvancedTTT {
     		int j = (n)%3;
 			if (board.getElement(i, j).equals("*")) {
 				Nactions[bran] = new NBoard(nboard);
-				if (sign == 1)
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "O");
-    			else
-    				Nactions[bran].getBoard(gridI, gridJ).setElement(i, j, "X");
-
-//    			System.out.println("&&&&&&&&&&&&& MinValue &&&&&&&&&&&&&");
-//    			Nactions[bran].PrintNBoard();
+				if (sign == 1) {
+					thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "O");
+    				if (TerminalTest(thisstep) == 1) {return 200.0;}
+					else if (TerminalTest(thisstep) == -1) {return -200.0;}
+					else if (TerminalTest(thisstep) == 0)	{return 0.0;}
+				}
+    			else {
+    				thisstep = Nactions[bran].getBoard(gridI, gridJ);
+    				thisstep.setElement(i, j, "X");
+    				if (TerminalTest(thisstep) == 1) {return 200.0;}
+					else if (TerminalTest(thisstep) == -1) {return -200.0;}
+					else if (TerminalTest(thisstep) == 0)	{return 0.0;}
+    			}
 
     			utility = MaxValue(Nactions[bran], i, j, alpha, beta, depth);
+//    			System.out.println("&&&&&&&&&&&&& MinValue &&&&&&&&&&&&&");
+//    			Nactions[bran].PrintNBoard();
+//    			System.out.println("Minutility = " + utility + "depth = " + depth);
     			bran++;
 				if (utility < V) {
 					V = utility;
@@ -342,6 +391,8 @@ public class AdvancedTTT {
 		Res = Res + getScore(Elements[0][0], Elements[1][1], Elements[2][2]);
 		Res = Res + getScore(Elements[0][2], Elements[1][1], Elements[2][0]);
 
+//		System.out.println("Board at Heuristic");
+//		board.PrintBoard();
 		return Res;
 	}
 
@@ -356,12 +407,12 @@ public class AdvancedTTT {
 		if 		(s3.equals("X"))	{XScore++;}
 		else if (s3.equals("O"))	{OScore++;}
 
-		if 			(OScore == 0 && XScore == 3)		{return  1.0*sign;}
-		else if 	(OScore == 0 && XScore == 2)		{return  0.8*sign;}
-		else if 	(OScore == 0 && XScore == 1)		{return  0.5*sign;}
-		else if 	(XScore == 0 && OScore == 3)		{return -1.0*sign;}
-		else if 	(XScore == 0 && OScore == 2)		{return -0.8*sign;}
-		else if 	(XScore == 0 && OScore == 1)		{return -0.5*sign;}
+		if 			(OScore == 0 && XScore == 3)		{return  200.0*sign;}
+		else if 	(OScore == 0 && XScore == 2)		{return  2.0*sign;}
+		else if 	(OScore == 0 && XScore == 1)		{return  1.0*sign;}
+		else if 	(XScore == 0 && OScore == 3)		{return -200.0*sign;}
+		else if 	(XScore == 0 && OScore == 2)		{return -2.0*sign;}
+		else if 	(XScore == 0 && OScore == 1)		{return -1.0*sign;}
 		else 	return 0.0;
 	}
 
