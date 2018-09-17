@@ -142,6 +142,7 @@ public class AdvancedTTT {
 		int branch = openSpace(board);
 		int bran = 0;
 		int Res = 0;
+		int depth = 0;
 		Double utility_pre = Double.NEGATIVE_INFINITY;
 		Double utility;
 		NBoard[] Nactions = new NBoard[branch];
@@ -160,7 +161,7 @@ public class AdvancedTTT {
 //    			Nactions[bran].PrintNBoard();
 
 				utility = MinValue(Nactions[bran], i, j,
-					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depth);
 				System.out.println("utility = " + utility);
 				bran++;
 				if (utility > utility_pre) {
@@ -174,11 +175,17 @@ public class AdvancedTTT {
 
 
 
-	public Double MaxValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta) {
+	public Double MaxValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta, int inputM) {
+		int depth = inputM + 1;
 		Board board = nboard.getBoard(gridI, gridJ);
-		if (TerminalTest(board) == 1) {return 1.0;}
-		else if (TerminalTest(board) == -1) {return -1.0;}
-		else if (TerminalTest(board) == 0)	{return 0.0;}
+
+		if (depth < 7) {
+			if (TerminalTest(board) == 1) {return 1.0;}
+			else if (TerminalTest(board) == -1) {return -1.0;}
+			else if (TerminalTest(board) == 0)	{return 0.0;}
+		} else {
+			return Heuristic(board);
+		}
 
 		Double V = Double.NEGATIVE_INFINITY;
 		Double utility;
@@ -199,7 +206,7 @@ public class AdvancedTTT {
 //    			System.out.println("&&&&&&&&&&&&& MaxValue &&&&&&&&&&&&&");
 //    			Nactions[bran].PrintNBoard();
 
-    			utility = MinValue(Nactions[bran], i, j, alpha, beta);
+    			utility = MinValue(Nactions[bran], i, j, alpha, beta, depth);
     			bran++;
 
 				if (utility > V) {
@@ -218,12 +225,17 @@ public class AdvancedTTT {
 		return V;
 	}
 
-	public Double MinValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta) {
+	public Double MinValue(NBoard nboard, int gridI, int gridJ, Double alpha, Double beta, int inputM) {
+		int depth = inputM + 1;
 		Board board = nboard.getBoard(gridI, gridJ);
 
-		if (TerminalTest(board) == 1) {return 1.0;}
-		else if (TerminalTest(board) == -1) {return -1.0;}
-		else if (TerminalTest(board) == 0)	{return 0.0;}
+		if (depth < 7) {
+			if (TerminalTest(board) == 1) {return 1.0;}
+			else if (TerminalTest(board) == -1) {return -1.0;}
+			else if (TerminalTest(board) == 0)	{return 0.0;}
+		} else {
+			return Heuristic(board);
+		}
 
 		Double V = Double.POSITIVE_INFINITY;
 		Double utility;
@@ -244,7 +256,7 @@ public class AdvancedTTT {
 //    			System.out.println("&&&&&&&&&&&&& MinValue &&&&&&&&&&&&&");
 //    			Nactions[bran].PrintNBoard();
 
-    			utility = MaxValue(Nactions[bran], i, j, alpha, beta);
+    			utility = MaxValue(Nactions[bran], i, j, alpha, beta, depth);
     			bran++;
 				if (utility < V) {
 					V = utility;
@@ -310,6 +322,47 @@ public class AdvancedTTT {
 		} else {
 			return 666; // go on playing
 		}
+	}
+
+	public Double Heuristic(Board board) {
+		Double Res = 0.0;
+		String[][] Elements = new String[3][3];
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				Elements[i][j] = (board.getElement(i, j));
+			}
+		}
+
+		Res = Res + getScore(Elements[0][0], Elements[0][1], Elements[0][2]);
+		Res = Res + getScore(Elements[1][0], Elements[1][1], Elements[1][2]);
+		Res = Res + getScore(Elements[2][0], Elements[2][1], Elements[2][2]);
+		Res = Res + getScore(Elements[0][0], Elements[1][0], Elements[2][0]);
+		Res = Res + getScore(Elements[0][1], Elements[1][1], Elements[2][1]);
+		Res = Res + getScore(Elements[0][2], Elements[1][2], Elements[2][2]);
+		Res = Res + getScore(Elements[0][0], Elements[1][1], Elements[2][2]);
+		Res = Res + getScore(Elements[0][2], Elements[1][1], Elements[2][0]);
+
+		return Res;
+	}
+
+	private Double getScore(String s1, String s2, String s3) {
+		Double XScore = 0.;
+		Double OScore = 0.;
+
+		if 		(s1.equals("X"))	{XScore++;}
+		else if (s1.equals("O"))	{OScore++;}
+		if 		(s2.equals("X"))	{XScore++;}
+		else if (s2.equals("O"))	{OScore++;}
+		if 		(s3.equals("X"))	{XScore++;}
+		else if (s3.equals("O"))	{OScore++;}
+
+		if 			(OScore == 0 && XScore == 3)		{return  1.0*sign;}
+		else if 	(OScore == 0 && XScore == 2)		{return  0.8*sign;}
+		else if 	(OScore == 0 && XScore == 1)		{return  0.5*sign;}
+		else if 	(XScore == 0 && OScore == 3)		{return -1.0*sign;}
+		else if 	(XScore == 0 && OScore == 2)		{return -0.8*sign;}
+		else if 	(XScore == 0 && OScore == 1)		{return -0.5*sign;}
+		else 	return 0.0;
 	}
 
 

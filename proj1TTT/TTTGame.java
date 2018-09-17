@@ -11,7 +11,7 @@ public class TTTGame {
 
 	public TTTGame() {
 		step = 0;
-		Board board = new Board(3);
+		board = new Board(3);
 
 		Scanner scanner = new Scanner(System.in);
     	System.out.print("wanna to play X or O : ");
@@ -21,23 +21,62 @@ public class TTTGame {
 
     		sign = -1;
     		System.out.println("you(user) play first");
-    		System.out.print("Please input your step : ");
-    		String Sinitial = scanner.next();
-    		int stepInit = Integer.parseInt(Sinitial);
-    		if (stepInit < 1 || stepInit > 9)
-    			throw new IllegalArgumentException("input must be 1-9");
-    		int i = (stepInit - 1)/3;
-    		int j = (stepInit - 1)%3;
-    		board.setElement(i, j, "X");
-    		board.PrintBoard();
-    		step++;
+    		int i = 0;
+    		int j = 0;
 
     		for (int count = 0; count < 8; count++) {
+    			System.out.print("Please input your step : ");
+    			String S = scanner.next();
+    			int inputStep = Integer.parseInt(S);
+    			i = (inputStep - 1)/3;
+    			j = (inputStep - 1)%3;
+    			board.setElement(i, j, "X");
+    			step++;
+    			board.PrintBoard();
+    			if (TerminalTest(board) == 1) {
+    				System.out.println("AI win");
+    				break;
+    			} else if (TerminalTest(board) == -1) {
+    				System.out.println("you win");
+    				break;
+    			} else if (TerminalTest(board) == 0) {
+    				System.out.println("TIE");
+    				break;
+    			}
+
      			int ACT = MinMax(board);
     			System.out.println("AI step : " + ACT);
     			i = (ACT - 1)/3;
     			j = (ACT - 1)%3;
     			board.setElement(i, j, "O");
+    			step++;
+    			board.PrintBoard();
+    			if (TerminalTest(board) == 1) {
+    				System.out.println("AI win");
+    				break;
+    			} else if (TerminalTest(board) == -1) {
+    				System.out.println("you win");
+    				break;
+    			} else if (TerminalTest(board) == 0) {
+    				System.out.println("TIE");
+    				break;
+    			}   	
+
+    		}
+    		System.out.println("Terminated at step  " + step);
+
+
+    	} else if (choice.equals("O") || choice.equals("o")) {
+    		sign = 1;
+    		System.out.println("I (AI) play first");
+    		int i = 0;
+    		int j = 0;
+    		for (int count = 0; count < 8; count++) {
+     			int ACT = MinMax(board);
+    			System.out.println("AI step : " + ACT);
+    			i = (ACT - 1)/3;
+    			j = (ACT - 1)%3;
+    			board.setElement(i, j, "X");
     			step++;
     			board.PrintBoard();
     			if (TerminalTest(board) == 1) {
@@ -56,7 +95,7 @@ public class TTTGame {
     			int inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
     			j = (inputStep - 1)%3;
-    			board.setElement(i, j, "X");
+    			board.setElement(i, j, "O");
     			step++;
     			board.PrintBoard();
     			if (TerminalTest(board) == 1) {
@@ -70,57 +109,6 @@ public class TTTGame {
     				break;
     			}
 
-    		}
-    		System.out.println("Terminated at step  " + step);
-
-
-    	} else if (choice.equals("O") || choice.equals("o")) {
-    		sign = 1;
-    		System.out.println("I (AI) play first");
-    		int stepInit = MinMax(board);
-    		step++;
-    		int i = (stepInit - 1)/3;
-    		int j = (stepInit - 1)%3;
-    		board.setElement(i, j, "X");
-    		board.PrintBoard();
-
-    		for (int count = 0; count < 8; count++) {
-    			System.out.print("Please input your step : ");
-    			String S = scanner.next();
-    			int inputStep = Integer.parseInt(S);
-    			i = (inputStep - 1)/3;
-    			j = (inputStep - 1)%3;
-    			board.setElement(i, j, "O");
-    			step++;
-    			board.PrintBoard();
-    			if (TerminalTest(board) == 1) {
-    				System.out.println("AI win");
-    				break;
-    			} else if (TerminalTest(board) == -1) {
-    				System.out.println("You win");
-    				break;
-    			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
-    				break;
-    			}
-
-    			int ACT = MinMax(board);
-    			System.out.println("AI step : " + ACT);
-    			i = (ACT - 1)/3;
-    			j = (ACT - 1)%3;
-    			board.setElement(i, j, "X");
-    			step++;
-    			board.PrintBoard();
-    			if (TerminalTest(board) == 1) {
-    				System.out.println("AI win");
-    				break;
-    			} else if (TerminalTest(board) == -1) {
-    				System.out.println("You win");
-    				break;
-    			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
-    				break;
-    			}
     		}
     		System.out.println("Terminated at step  " + step);
     	} else {
@@ -201,7 +189,7 @@ public class TTTGame {
 				// above show all the branches
 				utility = MinValue(actions[bran], 
 					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-//				System.out.println("utility : " + utility);
+				System.out.println("utility : " + utility);
 				bran++;
 				if (utility > utility_pre) {
 				utility_pre = utility;

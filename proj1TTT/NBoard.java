@@ -14,50 +14,50 @@ public class NBoard {
 			}
 		}
 
-		Nboard[0][0].setElement(0, 0, "X");
-		Nboard[0][0].setElement(2, 0, "X");
-		Nboard[0][0].setElement(0, 1, "O");
-		Nboard[0][0].setElement(1, 0, "O");
-
-		Nboard[0][1].setElement(0, 1, "X");
-		Nboard[0][1].setElement(2, 0, "X");
-		Nboard[0][1].setElement(0, 2, "O");
-		Nboard[0][1].setElement(1, 1, "O");
-
-		Nboard[0][2].setElement(1, 0, "X");
-		Nboard[0][2].setElement(2, 0, "X");
-		Nboard[0][2].setElement(0, 1, "O");
-		Nboard[0][2].setElement(2, 2, "O");
-
-		Nboard[1][0].setElement(2, 0, "X");
-		Nboard[1][0].setElement(2, 1, "X");
-		Nboard[1][0].setElement(0, 2, "O");
-		Nboard[1][0].setElement(1, 0, "O");
-
-		Nboard[1][1].setElement(0, 0, "X");
-		Nboard[1][1].setElement(2, 1, "O");
-		Nboard[1][1].setElement(1, 1, "X");
-		Nboard[1][1].setElement(2, 2, "O");
-
-		Nboard[1][2].setElement(0, 0, "X");
-		Nboard[1][2].setElement(2, 0, "X");
-		Nboard[1][2].setElement(0, 1, "O");
-		Nboard[1][2].setElement(1, 0, "O");
-
-		Nboard[2][0].setElement(1, 1, "X");
-		Nboard[2][0].setElement(2, 0, "X");
-		Nboard[2][0].setElement(0, 1, "O");
-		Nboard[2][0].setElement(1, 0, "O");
-
-		Nboard[2][1].setElement(0, 1, "X");
-		Nboard[2][1].setElement(2, 0, "X");
-		Nboard[2][1].setElement(2, 1, "O");
-		Nboard[2][1].setElement(1, 2, "O");
-
-		Nboard[2][2].setElement(0, 0, "X");
-		Nboard[2][2].setElement(2, 0, "X");
-		Nboard[2][2].setElement(0, 1, "O");
-		Nboard[2][2].setElement(1, 0, "O");
+//		Nboard[0][0].setElement(0, 0, "X");
+//		Nboard[0][0].setElement(2, 0, "X");
+//		Nboard[0][0].setElement(0, 1, "O");
+//		Nboard[0][0].setElement(1, 0, "O");
+//
+//		Nboard[0][1].setElement(0, 1, "X");
+//		Nboard[0][1].setElement(2, 0, "X");
+//		Nboard[0][1].setElement(0, 2, "O");
+//		Nboard[0][1].setElement(1, 1, "O");
+//
+//		Nboard[0][2].setElement(1, 0, "X");
+//		Nboard[0][2].setElement(2, 0, "X");
+//		Nboard[0][2].setElement(0, 1, "O");
+//		Nboard[0][2].setElement(2, 2, "O");
+//
+//		Nboard[1][0].setElement(2, 0, "X");
+//		Nboard[1][0].setElement(2, 1, "X");
+//		Nboard[1][0].setElement(0, 2, "O");
+//		Nboard[1][0].setElement(1, 0, "O");
+//
+//		Nboard[1][1].setElement(0, 0, "X");
+//		Nboard[1][1].setElement(2, 1, "O");
+//		Nboard[1][1].setElement(1, 1, "X");
+//		Nboard[1][1].setElement(2, 2, "O");
+//
+//		Nboard[1][2].setElement(0, 0, "X");
+//		Nboard[1][2].setElement(2, 0, "X");
+//		Nboard[1][2].setElement(0, 1, "O");
+//		Nboard[1][2].setElement(1, 0, "O");
+//
+//		Nboard[2][0].setElement(1, 1, "X");
+//		Nboard[2][0].setElement(2, 0, "X");
+//		Nboard[2][0].setElement(0, 1, "O");
+//		Nboard[2][0].setElement(1, 0, "O");
+//
+//		Nboard[2][1].setElement(0, 1, "X");
+//		Nboard[2][1].setElement(2, 0, "X");
+//		Nboard[2][1].setElement(2, 1, "O");
+//		Nboard[2][1].setElement(1, 2, "O");
+//
+//		Nboard[2][2].setElement(0, 0, "X");
+//		Nboard[2][2].setElement(2, 0, "X");
+//		Nboard[2][2].setElement(0, 1, "O");
+//		Nboard[2][2].setElement(1, 0, "O");
 
 
 
