@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class TTTGame {
 	private Board board;
 	private int step;
-	private int count;
 	private int sign;
 
 	public TTTGame() {
@@ -16,6 +15,13 @@ public class TTTGame {
 		Scanner scanner = new Scanner(System.in);
     	System.out.print("wanna to play X or O : ");
     	String choice = scanner.next();
+
+    	while(!choice.equals("X") && !choice.equals("x") && !choice.equals("O") && !choice.equals("o")) {
+    		System.out.print("please rethink to play X or O : ");
+			choice = scanner.next();
+    	}
+
+
 
     	if (choice.equals("X") || choice.equals("x")) {
 
@@ -30,6 +36,13 @@ public class TTTGame {
     			int inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
     			j = (inputStep - 1)%3;
+    			while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
     			board.setElement(i, j, "X");
     			step++;
     			board.PrintBoard();
@@ -95,6 +108,15 @@ public class TTTGame {
     			int inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
     			j = (inputStep - 1)%3;
+
+    			while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
+
     			board.setElement(i, j, "O");
     			step++;
     			board.PrintBoard();

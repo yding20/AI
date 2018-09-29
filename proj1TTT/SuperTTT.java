@@ -3,17 +3,21 @@ import java.io.*;
 import java.util.Scanner;
 
 
-public class AdvancedTTT {
+public class SuperTTT {
 	private NBoard nboard;
+	private int[] boardstatus;
 	private int step;
 	private int sign;
 	private int cutoff = 8;
 
-	public AdvancedTTT() {
+	public SuperTTT() {
 		step = 0; 
 		nboard = new NBoard(3);
+		boardstatus = new int[9];
+		for (int i = 0; i < 9; i++)
+			boardstatus[i] = 0;
 		Scanner scanner = new Scanner(System.in);
-    	System.out.print("wanna to play X or O : ");
+    	System.out.print("Wanna to play X or O : ");
     	String choice = scanner.next();
 
     	if (choice.equals("X") || choice.equals("x")) {
@@ -30,7 +34,7 @@ public class AdvancedTTT {
     		int i = (ACT - 1)/3;
     		int j = (ACT - 1)%3;
 
-    		for (int count = 0; count < 9; count++) {
+    		for (int count = 0; count < 3000; count++) {
     			System.out.print("Please input your step(1-9) in grid " + ACT + ":  ");
     			Board board = nboard.getBoard(i, j);
 	    		String Sinitial = scanner.next();
@@ -42,6 +46,7 @@ public class AdvancedTTT {
 	
 	    		board.setElement(i, j, "X");
 	    		nboard.PrintNBoard();
+
 	    		step++;
 
 	    		if (TerminalTest(board) == 1) {
@@ -82,6 +87,8 @@ public class AdvancedTTT {
     	} else if (choice.equals("O") || choice.equals("o")) {
     		sign = 1;
     		int inputStep = 5;
+    		int inputStepold = 0;
+    		int ACTold = 0;
     		int i = (inputStep - 1)/3;
     		int j = (inputStep - 1)%3;
 
@@ -89,8 +96,16 @@ public class AdvancedTTT {
     		nboard.PrintNBoard();
     		System.out.println("I (AI) play first");
 
-    		for (int count = 0; count < 30; count++) {
-     			System.out.println("AI play in grid " + inputStep);
+    		for (int count = 0; count < 3000; count++) {
+    			if (boardstatus[inputStep - 1] == 0)
+     				System.out.println("AI play in grid " + inputStep);
+     			else {
+     				inputStep = selectGrid(inputStep); //Change to someother grid
+     				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+     				System.out.println("FUll, AI decide to play in grid " + inputStep);
+
+     			}
 
      			Board board = nboard.getBoard(i, j);
     			int ACT = MinMax(nboard, i, j);
@@ -100,19 +115,42 @@ public class AdvancedTTT {
     			board.setElement(i, j, "X");
     			nboard.PrintNBoard();
     			step++;
+    			
     			if (TerminalTest(board) == 1) {
+    				boardstatus[inputStep - 1] = 1;
+    				setGridX(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been taken by X");
+    			} else if (TerminalTest(board) == -1) {
+    				boardstatus[inputStep - 1] = -1;
+    				setGridO(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been taken by O");
+    			} else if (TerminalTest(board) == 0) {
+    				boardstatus[inputStep - 1] = 666;
+    				setGridT(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been tied mark T");
+    			}   	
+
+    			if (boardstatusCheck()) {
     				System.out.println("AI win");
     				break;
-    			} else if (TerminalTest(board) == -1) {
-    				System.out.println("you win");
-    				break;
-    			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
-    				break;
-    			}   	
+    			}
   			
+    			if (boardstatus[ACT - 1] == 0)
+    				System.out.print("Your play in grid  " + ACT +  ", Please input your step : ");
+    			else {
+    				ACTold = ACT;
+    				System.out.print(ACT +  " is full, choose other any grid you want : ");
+    				String Rgrid = scanner.next();
+    				ACT = Integer.parseInt(Rgrid);
+    				i = (ACT - 1)/3;
+    				j = (ACT - 1)%3;
+    				System.out.print("Your play in grid  " + ACT +  ", Please input your step : ");
+
+    			}
     			board = nboard.getBoard(i, j);
-    			System.out.print("Your play in grid  " + ACT +  ", Please input your step : ");
     			String S = scanner.next();
     			inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
@@ -121,15 +159,26 @@ public class AdvancedTTT {
     			nboard.PrintNBoard();
     			step++;
     			if (TerminalTest(board) == 1) {
+    				boardstatus[ACT-1] = 1;
+    				setGridX(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been taken by X");
+    			} else if (TerminalTest(board) == -1) {
+    				boardstatus[ACT-1] = -1;
+    				setGridO(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been taken by O");
+    			} else if (TerminalTest(board) == 0) {
+    				boardstatus[ACT-1] = 666;
+    				setGridT(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been tied mark T");
+    			}  
+
+    			if (boardstatusCheck()) {
     				System.out.println("AI win");
     				break;
-    			} else if (TerminalTest(board) == -1) {
-    				System.out.println("you win");
-    				break;
-    			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
-    				break;
-    			}
+    			} 	 
 
     		}
     		System.out.println("Terminated at step  " + step);
@@ -416,9 +465,60 @@ public class AdvancedTTT {
 		else 	return 0.0;
 	}
 
+	public void setGridO(Board board) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				board.setElement(i, j, "O");
+	}
+
+	public void setGridX(Board board) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				board.setElement(i, j, "X");
+	}
+
+	public void setGridT(Board board) {
+		for (int i = 0; i < 3; i++)
+			for (int j = 0; j < 3; j++)
+				board.setElement(i, j, "T");
+	}
+
+	public int selectGrid(int oldGrid) {
+		    int i = (oldGrid - 1)/3;
+    		int j = (oldGrid - 1)%3;
+    		double cri = -10000.0;
+    		double heu;
+    		int count = 1;
+    		for (int n = 0; n < 3; n++)
+    			for (int m = 0; m < 3; m++) {
+    				int num = (m+1) + n * 3;
+    				if (boardstatus[num - 1] == 0) {
+    					heu = Heuristic(nboard.getBoard(m, n));
+    					System.out.println("num" + num + "  heu = " + heu);
+    					if (heu > cri) {
+    						cri = heu;
+    						count = num;
+    					}
+    				}
+    			}	
+    		return count;
+	}
+
+	public boolean boardstatusCheck() {
+		if (boardstatus[0] == 1 && boardstatus[4] == 1 && boardstatus[8] == 1)
+			return true;
+		return false;
+	}
+
+
+
+
+
+
+
 
 
 	public static void main(String args[]) {
-		AdvancedTTT newGame = new AdvancedTTT();
+		SuperTTT newGame = new SuperTTT();
 	}
 }
