@@ -30,15 +30,22 @@ public class AdvancedTTT {
     		int i = (ACT - 1)/3;
     		int j = (ACT - 1)%3;
 
-    		for (int count = 0; count < 9; count++) {
+    		for (int count = 0; count < 3000; count++) {
     			System.out.print("Please input your step(1-9) in grid " + ACT + ":  ");
     			Board board = nboard.getBoard(i, j);
-	    		String Sinitial = scanner.next();
-	    		int inputStep = Integer.parseInt(Sinitial);
+	    		String S = scanner.next();
+	    		int inputStep = Integer.parseInt(S);
 	    		if (inputStep < 1 || inputStep > 9)
 	    			throw new IllegalArgumentException("input must be 1-9");
 	    		i = (inputStep - 1)/3;
 	    		j = (inputStep - 1)%3;
+	    		while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
 	
 	    		board.setElement(i, j, "X");
 	    		nboard.PrintNBoard();
@@ -89,11 +96,15 @@ public class AdvancedTTT {
     		nboard.PrintNBoard();
     		System.out.println("I (AI) play first");
 
-    		for (int count = 0; count < 30; count++) {
+    		for (int count = 0; count < 3000; count++) {
      			System.out.println("AI play in grid " + inputStep);
 
      			Board board = nboard.getBoard(i, j);
-    			int ACT = MinMax(nboard, i, j);
+    			Stopwatch timer = new Stopwatch();
+     			int ACT = MinMax(nboard, i, j);
+     			double time = timer.elapsedTime();
+     			System.out.print("AI think time : ");
+     			System.out.printf("%7.6f\n", time);
     			System.out.println("AI step : " + ACT);
     			i = (ACT - 1)/3;
     			j = (ACT - 1)%3;
@@ -117,6 +128,13 @@ public class AdvancedTTT {
     			inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
     			j = (inputStep - 1)%3;
+    			while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
     			board.setElement(i, j, "O");
     			nboard.PrintNBoard();
     			step++;

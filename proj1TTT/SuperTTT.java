@@ -22,6 +22,8 @@ public class SuperTTT {
 
     	if (choice.equals("X") || choice.equals("x")) {
 
+    		int inputStepold = 0;
+    		int ACTold = 0;
     		sign = -1;
     		System.out.println("First state : ");
     		nboard.PrintNBoard();
@@ -35,32 +37,70 @@ public class SuperTTT {
     		int j = (ACT - 1)%3;
 
     		for (int count = 0; count < 3000; count++) {
-    			System.out.print("Please input your step(1-9) in grid " + ACT + ":  ");
+
+    			if (boardstatus[ACT - 1] == 0)
+    				System.out.print("Your play in grid  " + ACT +  ", Please input your step : ");
+    			else {
+    				ACTold = ACT;
+    				System.out.print(ACT +  " is full, choose other any grid you want : ");
+    				String Rgrid = scanner.next();
+    				ACT = Integer.parseInt(Rgrid);
+    				i = (ACT - 1)/3;
+    				j = (ACT - 1)%3;
+    				System.out.print("Your play in grid  " + ACT +  ", Please input your step : ");
+
+    			}
+
     			Board board = nboard.getBoard(i, j);
-	    		String Sinitial = scanner.next();
-	    		int inputStep = Integer.parseInt(Sinitial);
-	    		if (inputStep < 1 || inputStep > 9)
-	    			throw new IllegalArgumentException("input must be 1-9");
+	    		String S = scanner.next();
+	    		int inputStep = Integer.parseInt(S);
 	    		i = (inputStep - 1)/3;
 	    		j = (inputStep - 1)%3;
+	    		while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
 	
 	    		board.setElement(i, j, "X");
 	    		nboard.PrintNBoard();
 
 	    		step++;
 
-	    		if (TerminalTest(board) == 1) {
-    				System.out.println("AI win");
-    				break;
+    			if (TerminalTest(board) == 1) {
+    				boardstatus[ACT-1] = 1;
+    				setGridO(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been taken by O");
     			} else if (TerminalTest(board) == -1) {
-    				System.out.println("you win");
-    				break;
+    				boardstatus[ACT-1] = -1;
+    				setGridX(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been taken by X");
     			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
-    				break;
-    			}   
+    				boardstatus[ACT-1] = 666;
+    				setGridT(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + ACT + " has been tied mark T");
+    			}  
 
-    			System.out.println("AI play in grid " + inputStep);
+    			if (boardstatusCheck() == -1) {
+    				System.out.println("You win");
+    				break;
+    			} 	 
+
+    			if (boardstatus[inputStep - 1] == 0)
+     				System.out.println("AI play in grid " + inputStep);
+     			else {
+     				inputStep = selectGrid(inputStep); //Change to someother grid
+     				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+     				System.out.println("FUll, AI decide to play in grid " + inputStep);
+
+     			}
+
     			board = nboard.getBoard(i, j);
     			ACT = MinMax(nboard, i, j);
     			System.out.println("AI step : " + ACT);
@@ -69,14 +109,26 @@ public class SuperTTT {
     			board.setElement(i, j, "O");
     			nboard.PrintNBoard();
     			step++;
+
     			if (TerminalTest(board) == 1) {
-    				System.out.println("AI win");
-    				break;
+    				boardstatus[inputStep - 1] = 1;
+    				setGridO(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been taken by O");
     			} else if (TerminalTest(board) == -1) {
-    				System.out.println("you win");
-    				break;
+    				boardstatus[inputStep - 1] = -1;
+    				setGridX(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been taken by X");
     			} else if (TerminalTest(board) == 0) {
-    				System.out.println("TIE");
+    				boardstatus[inputStep - 1] = 666;
+    				setGridT(board);
+    				nboard.PrintNBoard();
+    				System.out.println("Grid " + inputStep + " has been tied mark T");
+    			}   	
+
+    			if (boardstatusCheck() == 1) {
+    				System.out.println("AI win");
     				break;
     			}
 
@@ -115,7 +167,7 @@ public class SuperTTT {
     			board.setElement(i, j, "X");
     			nboard.PrintNBoard();
     			step++;
-    			
+
     			if (TerminalTest(board) == 1) {
     				boardstatus[inputStep - 1] = 1;
     				setGridX(board);
@@ -133,7 +185,7 @@ public class SuperTTT {
     				System.out.println("Grid " + inputStep + " has been tied mark T");
     			}   	
 
-    			if (boardstatusCheck()) {
+    			if (boardstatusCheck() == 1) {
     				System.out.println("AI win");
     				break;
     			}
@@ -155,6 +207,13 @@ public class SuperTTT {
     			inputStep = Integer.parseInt(S);
     			i = (inputStep - 1)/3;
     			j = (inputStep - 1)%3;
+    			while (!board.getElement(i, j).equals("*")) {
+    				System.out.print("Invalid step, Please input your step : ");
+    				S = scanner.next();
+    				inputStep = Integer.parseInt(S);
+    				i = (inputStep - 1)/3;
+    				j = (inputStep - 1)%3;
+    			}
     			board.setElement(i, j, "O");
     			nboard.PrintNBoard();
     			step++;
@@ -175,8 +234,8 @@ public class SuperTTT {
     				System.out.println("Grid " + ACT + " has been tied mark T");
     			}  
 
-    			if (boardstatusCheck()) {
-    				System.out.println("AI win");
+    			if (boardstatusCheck() == -1) {
+    				System.out.println("you win");
     				break;
     			} 	 
 
@@ -494,7 +553,7 @@ public class SuperTTT {
     				int num = (m+1) + n * 3;
     				if (boardstatus[num - 1] == 0) {
     					heu = Heuristic(nboard.getBoard(m, n));
-    					System.out.println("num" + num + "  heu = " + heu);
+//    					System.out.println("num" + num + "  heu = " + heu);
     					if (heu > cri) {
     						cri = heu;
     						count = num;
@@ -504,10 +563,26 @@ public class SuperTTT {
     		return count;
 	}
 
-	public boolean boardstatusCheck() {
-		if (boardstatus[0] == 1 && boardstatus[4] == 1 && boardstatus[8] == 1)
-			return true;
-		return false;
+	public int boardstatusCheck() {
+		if (boardstatus[0] == 1 && boardstatus[4] == 1 && boardstatus[8] == 1 ||
+			boardstatus[2] == 1 && boardstatus[4] == 1 && boardstatus[6] == 1 ||
+			boardstatus[0] == 1 && boardstatus[1] == 1 && boardstatus[2] == 1 ||
+			boardstatus[3] == 1 && boardstatus[4] == 1 && boardstatus[5] == 1 ||
+			boardstatus[6] == 1 && boardstatus[7] == 1 && boardstatus[8] == 1 ||
+			boardstatus[0] == 1 && boardstatus[3] == 1 && boardstatus[6] == 1 ||
+			boardstatus[1] == 1 && boardstatus[4] == 1 && boardstatus[7] == 1 ||
+			boardstatus[2] == 1 && boardstatus[5] == 1 && boardstatus[8] == 1 )
+			return 1;
+		else if (boardstatus[0] == -1 && boardstatus[4] == -1 && boardstatus[8] == -1 ||
+				boardstatus[2] == -1 && boardstatus[4] == -1 && boardstatus[6] == -1 ||
+				boardstatus[0] == -1 && boardstatus[1] == -1 && boardstatus[2] == -1 ||
+				boardstatus[3] == -1 && boardstatus[4] == -1 && boardstatus[5] == -1 ||
+				boardstatus[6] == -1 && boardstatus[7] == -1 && boardstatus[8] == -1 ||
+				boardstatus[0] == -1 && boardstatus[3] == -1 && boardstatus[6] == -1 ||
+				boardstatus[1] == -1 && boardstatus[4] == -1 && boardstatus[7] == -1 ||
+				boardstatus[2] == -1 && boardstatus[5] == -1 && boardstatus[8] == -1 )
+			return -1;
+		return 0;
 	}
 
 

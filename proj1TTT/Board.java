@@ -10,13 +10,13 @@ public class Board {
 				board[i][j] = "*";
 // Test Case 1
 //		board[0][0] = "X";
-//		board[0][1] = "*";
-//		board[0][2] = "O";
+//		board[0][1] = "X";
+//		board[0][2] = "X";
 //		board[1][0] = "*";
-//		board[1][1] = "O";
+//		board[1][1] = "*";
 //		board[1][2] = "*";
 //		board[2][0] = "*";
-//		board[2][1] = "X";
+//		board[2][1] = "*";
 //		board[2][2] = "*";
 // Test Case 2
 //		board[0][0] = "X";
@@ -103,21 +103,21 @@ public class Board {
 		}
 
 		Res = Res + getScore(Elements[0][0], Elements[0][1], Elements[0][2]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[1][0], Elements[1][1], Elements[1][2]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[2][0], Elements[2][1], Elements[2][2]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[0][0], Elements[1][0], Elements[2][0]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[0][1], Elements[1][1], Elements[2][1]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[0][2], Elements[1][2], Elements[2][2]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[0][0], Elements[1][1], Elements[2][2]);
-		System.out.println(Res);
+//		System.out.println(Res);
 		Res = Res + getScore(Elements[0][2], Elements[1][1], Elements[2][0]);
-		System.out.println(Res);
+//		System.out.println(Res);
 
 		return Res;
 	}
@@ -136,16 +136,16 @@ public class Board {
 		if 			(OScore == 0 && XScore == 3)		{return  200.0;}
 		else if 	(OScore == 0 && XScore == 2)		{return    2.0;}
 		else if 	(OScore == 0 && XScore == 1)		{return    1.0;}
-		else if 	(XScore == 0 && OScore == 3)		{return  200.0;}
-		else if 	(XScore == 0 && OScore == 2)		{return  2.0;}
-		else if 	(XScore == 0 && OScore == 1)		{return  1.0;}
+		else if 	(XScore == 0 && OScore == 3)		{return  -200.0;}
+		else if 	(XScore == 0 && OScore == 2)		{return  -2.0;}
+		else if 	(XScore == 0 && OScore == 1)		{return  -1.0;}
 		else 	return 0.0;
 	}
 
 	public static void main(String[] args) {
 		Board test = new Board(3);
 		test.PrintBoard();
-		System.out.println(test.Heuristic(test) + "final");
+		System.out.println("Heuristic = " + test.Heuristic(test));
 	}
 
 

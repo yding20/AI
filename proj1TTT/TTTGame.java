@@ -85,7 +85,11 @@ public class TTTGame {
     		int i = 0;
     		int j = 0;
     		for (int count = 0; count < 8; count++) {
+    			Stopwatch timer = new Stopwatch();
      			int ACT = MinMax(board);
+     			double time = timer.elapsedTime();
+     			System.out.print("AI think time : ");
+     			System.out.printf("%7.6f\n", time);
     			System.out.println("AI step : " + ACT);
     			i = (ACT - 1)/3;
     			j = (ACT - 1)%3;
@@ -211,7 +215,7 @@ public class TTTGame {
 				// above show all the branches
 				utility = MinValue(actions[bran], 
 					Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-				System.out.println("utility : " + utility);
+//				System.out.println("utility : " + utility);
 				bran++;
 				if (utility > utility_pre) {
 				utility_pre = utility;
