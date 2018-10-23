@@ -1,13 +1,16 @@
 import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 
-public class LiarsTruthA {
+public class LiarsTruthB {
 
 	ArrayList<Clause> clauses;
 	Clause alpha;
 
-	public LiarsTruthA(String s) throws IOException {
+	public LiarsTruthB(String s) throws IOException  {
 		clauses = new ArrayList<>();
 		alpha = new Clause();
 		Term Amy = new Term("Amy", 1);
@@ -24,34 +27,25 @@ public class LiarsTruthA {
 		clause1.add(Cal);
 
 		Clause clause2 = new Clause();
-		clause2.add(Bob_);
-		clause2.add(Cal);
+		clause2.add(Amy_);
+		clause2.add(Cal_);
 
 		Clause clause3 = new Clause();
 		clause3.add(Bob_);
-		clause3.add(Cal_);
+		clause3.add(Amy);
 
 		Clause clause4 = new Clause();
-		clause4.add(Amy_);
+		clause4.add(Bob_);
 		clause4.add(Cal);
 
 		Clause clause5 = new Clause();
 		clause5.add(Cal_);
 		clause5.add(Bob);
-		clause5.add(Amy_);
 
 		Clause clause6 = new Clause();
-		clause6.add(Cal);
+		clause6.add(Amy_);
+		clause6.add(Cal_);
 		clause6.add(Bob);
-
-		Clause clause7 = new Clause();
-		clause7.add(Amy_);
-		clause7.add(Cal_);
-		clause7.add(Amy);
-
-		Clause clause8 = new Clause();
-		clause8.add(Amy_);
-		clause8.add(Amy);
 
 		if (s.equals("Amy")) {
 			alpha.add(Amy_);  //Already Negated
@@ -71,8 +65,6 @@ public class LiarsTruthA {
 		clauses.add(clause4);
 		clauses.add(clause5);
 		clauses.add(clause6);
-		clauses.add(clause7);
-		clauses.add(clause8);
 
 		boolean results = Test.PLResolution(clauses, alpha);
 		System.out.println(results);
@@ -93,7 +85,7 @@ public class LiarsTruthA {
 
 
 	public static void main(String[] args) {
-//		LiarsTruthA LTA =  new LiarsTruthA();
+		//LiarsTruthB LTB =  new LiarsTruthB();
 
 
 	}

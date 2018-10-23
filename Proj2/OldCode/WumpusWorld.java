@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.io.IOException;
 
 
 public class WumpusWorld {
@@ -7,7 +6,7 @@ public class WumpusWorld {
 	ArrayList<Clause> clauses;
 	Clause alpha;
 
-	public WumpusWorld() throws IOException {
+	public WumpusWorld() {
 		clauses = new ArrayList<>();
 		alpha = new Clause();
 		Term B11 = new Term("B11", 1);
@@ -31,8 +30,8 @@ public class WumpusWorld {
 
 		Clause clause2 = new Clause();
 		clause2.add(B11_);
-		clause2.add(P12);
-		clause2.add(P21);
+		//clause2.add(P12);
+		//clause2.add(P21);
 
 		Clause clause3 = new Clause();
 		clause3.add(P12_);

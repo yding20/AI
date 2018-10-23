@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.io.IOException;
 
 
 public class LiarsTruthA {
@@ -7,7 +6,7 @@ public class LiarsTruthA {
 	ArrayList<Clause> clauses;
 	Clause alpha;
 
-	public LiarsTruthA(String s) throws IOException {
+	public LiarsTruthA(String s) {
 		clauses = new ArrayList<>();
 		alpha = new Clause();
 		Term Amy = new Term("Amy", 1);

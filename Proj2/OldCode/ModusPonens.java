@@ -1,12 +1,12 @@
 import java.util.ArrayList;
-import java.io.IOException;
+
 
 public class ModusPonens {
 
 	ArrayList<Clause> clauses;
 	Clause alpha;
 
-	public ModusPonens() throws IOException {
+	public ModusPonens() {
 		
 		clauses = new ArrayList<>();
 		alpha = new Clause();
@@ -48,7 +48,7 @@ public class ModusPonens {
 
 
 	public static void main(String[] args) {
-//		ModusPonens MP =  new ModusPonens();
+		ModusPonens MP =  new ModusPonens();
 
 
 	}

@@ -165,7 +165,7 @@ public class Test{
 
 
 //					System.out.println("After Rev : " + c_i.get());
-					bw.write("\nResolvents: " + c_i.get() + "\n");
+					bw.write("\nResolvents: " + c_j.get() + "\n");
 
 
 				ArrayList<String> sssr = new ArrayList<>();

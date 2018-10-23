@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.io.IOException;
 
 
 public class HornClauses {
@@ -7,7 +6,7 @@ public class HornClauses {
 	ArrayList<Clause> clauses;
 	Clause alpha;
 
-	public HornClauses(String s) throws IOException {
+	public HornClauses(String s) {
 		clauses = new ArrayList<>();
 		alpha = new Clause();
 		Term mythical = new Term("mythical", 1);
