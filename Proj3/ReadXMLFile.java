@@ -7,35 +7,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 public class ReadXMLFile {
-	public static void main(String[] args) throws Exception{
-
-		String s1 = args[0];
-
-		List<String> X = new ArrayList<>();
-		X.add(args[1]);
-
-
-		List<String> ObEvi = new ArrayList<>();
-		Map<String, Boolean> sign = new HashMap<>();
-
-		for (int c = 2; c < args.length; c += 2) {
-				ObEvi.add(args[c]);
-				if (args[c+1].equals("true")) {
-					sign.put(args[c], true);
-				} else {
-					sign.put(args[c], false);
-				}
-		}
-
-//		 System.out.println(s1);
-//		 for (String ss1 : X)
-//		 	System.out.println(ss1);
-//		 for (String ss2 : ObEvi)
-//		 	System.out.println(ss2 + "****" + sign.get(ss2));
-
+	public BayesianNetwork ReadFile(String s1) throws Exception{
 
   		File file = new File("examples/" + s1); 
-        boolean dogP = s1.equals("dog-problem.xml");
   		// File file = new File("examples/aima-wet-grass.xml");
   		// File file = new File("examples/dog-problem.xml");
   		BufferedReader br = new BufferedReader(new FileReader(file)); 
@@ -138,17 +112,7 @@ public class ReadXMLFile {
 
   		BayesianNetwork bayesiannetwork = new BayesianNetwork(graphElements);
 //  		bayesiannetwork.printNetwork();
-
-  		EnumerationAsk test = new EnumerationAsk(bayesiannetwork);
-  		List<Double> ResDist = test.numerationAsk(X, ObEvi, sign, dogP);
-        double val1 = ResDist.get(0);
-        double val2 = ResDist.get(1);
-        double total = val1 + val2;
-        val1  = val1/(total);
-        val2  = val2/(total);
-
-        System.out.println("The result ditribution is <" + String.format("%.8f", val1) 
-                    + " " + String.format("%.8f", val2) + " >");
+        return bayesiannetwork;
 	}
 }
 
