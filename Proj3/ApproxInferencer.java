@@ -39,7 +39,7 @@ public class ApproxInferencer {
 		}
 	}
 
-	public int[] PriorSample() {
+	public int[] RejectionSampling() {
 		int postive = 0, negative = 0, total = 0;
 		int [] Res = new int[2];
 		for (int i = 0; i < 5000000; i++)  {
@@ -85,8 +85,78 @@ public class ApproxInferencer {
 		return Res;
 	}
 
+	public int[] LikelihoodWeighting() {
+		double postive = 0., negative = 0., total = 0.;
+		int [] Res = new int[2];
+		for (int i = 0; i < 2000000; i++)  {
+			Map<String, Boolean> ResEvent = new HashMap<>();
+			Map<String, Boolean> signNew = new HashMap(sign);
+			double p = 0.;
+			double weight = 1;
+			boolean RanSign = true;
+			for (String var : vars) {
+				List<String> parents = bn.getParents(var);
+				List<Double> probabilities = bn.getProbabilities(var);
+
+				if (signNew.containsKey(var)) {
+					if (parents.isEmpty()) {
+						int n = signNew.get(var) ? 0 : 1;
+						weight *= probabilities.get(n);
+					} else if (parents.size() == 1) {
+						int m = signNew.get(parents.get(0)) ? 0 : 1;
+						int n = signNew.get(var) ? 0 : 1;
+						weight *= probabilities.get(2*m + n);
+						 
+					} else if (parents.size() == 2) {
+						int m1 = signNew.get(parents.get(0)) ? 0 : 1;
+						int m2 = signNew.get(parents.get(1)) ? 0 : 1;
+						int n = signNew.get(var) ? 0 : 1;
+						weight *= probabilities.get(4*m1 + 2*m2 + n);
+					}
+					RanSign = signNew.get(var);
+					//System.out.println("Contain : " + var + " : " + RanSign + "  " + weight);
+				} else {
+					double RandomNumber = Math.random();
+					if (parents.isEmpty()) {
+						p = probabilities.get(0);
+						RanSign = (RandomNumber < p)? true : false; 
+					} else if (parents.size() == 1) {
+						int m = ResEvent.get(parents.get(0)) ? 0 : 1;
+						p = probabilities.get(m*2);
+						RanSign = (RandomNumber < p)? true : false; 
+					} else if (parents.size() == 2) {
+						int m1 = ResEvent.get(parents.get(0)) ? 0 : 1;
+						int m2 = ResEvent.get(parents.get(1)) ? 0 : 1;
+						p = probabilities.get(m1*4 + m2*2);
+						RanSign = (RandomNumber < p)? true : false; 
+					}
+					signNew.put(var, RanSign);
+					//System.out.println("NotContain : " + var + " : " + RanSign + "  ");
+				}
+
+	
+				ResEvent.put(var, RanSign);
+				//System.out.print(var + " : " + RanSign + "  ");
+			}
+
+			//System.out.println("  Weight :" + weight);
+
+			for (String s : ResEvent.keySet()) {
+				if (ResEvent.get(X.get(0)))	postive += weight ;
+				else					negative += weight;
+				total +=  weight;
+			}
+
+		}
+		System.out.println("<" + 1.0*postive/total + ", " + 1.0*negative/total + ">");
+		return Res;
+	}
+
+
+
 	public static void main(String[] args) throws Exception {
 		ApproxInferencer approxInferencer = new ApproxInferencer(args);
-		approxInferencer.PriorSample();
+		//approxInferencer.RejectionSampling();
+		approxInferencer.LikelihoodWeighting();
 	}
 }
