@@ -53,6 +53,10 @@ public class BayesianNetwork {
 		return Parents[map.get(s)];
 	}
 
+	public List<String> getChildren(String s) {
+		return Children[map.get(s)];
+	}
+
 	public List<Double> getProbabilities(String s) {
 		return probabilities[map.get(s)];
 	}
