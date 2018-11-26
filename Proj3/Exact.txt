@@ -1,0 +1,69 @@
+java ExactInference aima-alarm.xml B J true M true
+The result ditribution is <0.28417184 0.71582816 >  time : 0.00050173
+
+
+java ExactInference aima-alarm.xml B J true M false
+The result ditribution is <0.00512986 0.99487014 >  time : 0.00042217
+
+
+java ExactInference aima-alarm.xml B J false M false
+The result ditribution is <0.00009018 0.99990982 >	time : 0.00051026
+
+
+java ExactInference aima-alarm.xml E J true M true
+The result ditribution is <0.17606684 0.82393316 >	time : 0.00057060
+
+
+java ExactInference aima-alarm.xml E J true M true B true
+The result ditribution is <0.00202122 0.99797878 >	time : 0.00039169
+
+
+java ExactInference aima-alarm.xml B J true
+The result ditribution is <0.01628373 0.98371627 >	time : 0.00061511
+
+
+
+
+
+
+java ExactInference aima-wet-grass.xml R S true
+The result ditribution is <0.30000000 0.70000000 >	time : 0.00043222
+
+
+java ExactInference aima-wet-grass.xml R S false
+The result ditribution is <0.58571429 0.41428571 >	time : 0.00045020
+
+
+java ExactInference aima-wet-grass.xml C S false
+The result ditribution is <0.64285714 0.35714286 >	time : 0.00043971
+
+
+java ExactInference aima-wet-grass.xml C S true
+The result ditribution is <0.16666667 0.83333333 >	time : 0.00049770
+
+
+java ExactInference aima-wet-grass.xml C S true W true
+The result ditribution is <0.17475728 0.82524272 >	time : 0.00040572
+
+
+
+
+
+
+java ExactInference dog-problem.xml light-on dog-out true
+The result ditribution is <0.23776811 0.76223189 >	time : 0.00069528
+
+
+java ExactInference dog-problem.xml light-on dog-out false	
+The result ditribution is <0.06353220 0.93646780 >	time : 0.00069356
+
+
+java ExactInference dog-problem.xml dog-out light-on true bowel-problem false
+The result ditribution is <0.70754717 0.29245283 >	time : 0.00058713
+
+
+java ExactInference dog-problem.xml dog-out light-on true bowel-problem true
+The result ditribution is <0.98358491 0.01641509 >	time : 0.00049897
+
+
+

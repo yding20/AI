@@ -111,7 +111,7 @@ public class ReadXMLFile {
   		}
 
   		BayesianNetwork bayesiannetwork = new BayesianNetwork(graphElements);
-//  		bayesiannetwork.printNetwork();
+  		//bayesiannetwork.printNetwork();
         return bayesiannetwork;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class ApproxInferencer {
 	private int N;
+	private int interation;
 	private BayesianNetwork bn;
 	private List<String> X = new ArrayList<>();
 	private	List<String> ObEvi = new ArrayList<>();
@@ -13,10 +14,11 @@ public class ApproxInferencer {
 
 	public ApproxInferencer(String[] args) throws Exception {
 		ReadXMLFile readFile = new ReadXMLFile();
-		String s1 = args[0];
+		interation = Integer.parseInt(args[0]);
+		String s1 = args[1];
 		boolean dogP = s1.equals("dog-problem.xml");
-		X.add(args[1]);
-		for (int c = 2; c < args.length; c += 2) {
+		X.add(args[2]);
+		for (int c = 3; c < args.length; c += 2) {
 				ObEvi.add(args[c]);
 				if (args[c+1].equals("true")) {
 					sign.put(args[c], true);
@@ -40,9 +42,12 @@ public class ApproxInferencer {
 	}
 
 	public int[] RejectionSampling() {
+		long start = System.currentTimeMillis();
 		int postive = 0, negative = 0, total = 0;
 		int [] Res = new int[2];
-		for (int i = 0; i < 5000000; i++)  {
+		int countTol = 0;
+		//for (int i = 0; i < interation; i++)
+		while(total < interation)  {
 			Map<String, Boolean> ResEvent = new HashMap<>();
 			double p = 0.;
 			boolean RanSign = true;
@@ -71,6 +76,7 @@ public class ApproxInferencer {
 				ResEvent.put(var, RanSign);
 				//System.out.print(var + " : " + RanSign + "  ");
 			}
+			countTol++;
 
 			for (String s : ResEvent.keySet()) {
 				if (ResEvent.size() == vars.size()) {
@@ -81,16 +87,23 @@ public class ApproxInferencer {
 			}
 
 		}
-		System.out.println("<" + 1.0*postive/total + ", " + 1.0*negative/total + ">");
+		long now = System.currentTimeMillis();
+  		double time = (now - start) / 1000.0;
+		double val1 = 1.0*postive/total;
+		double val2 = 1.0*negative/total;
+		System.out.print("RejectionSampling :  ");
+		System.out.println("<" + String.format("%.8f", val1) + ", " +  String.format("%.8f", val2) + ">" 
+		+"    time : " + String.format("%.8f", time) + " total : " + countTol + "  accepted : " + total);
 		return Res;
 	}
 
 	public int[] LikelihoodWeighting() {
+		long start = System.currentTimeMillis();
 		double postive = 0., negative = 0., total = 0.;
 		int [] Res = new int[2];
-		for (int i = 0; i < 2000000; i++)  {
+		for (int i = 0; i < interation; i++)  {
 			Map<String, Boolean> ResEvent = new HashMap<>();
-			Map<String, Boolean> signNew = new HashMap(sign);
+			Map<String, Boolean> signNew = new HashMap<>(sign);
 			double p = 0.;
 			double weight = 1;
 			boolean RanSign = true;
@@ -148,12 +161,19 @@ public class ApproxInferencer {
 			}
 
 		}
-		System.out.println("<" + 1.0*postive/total + ", " + 1.0*negative/total + ">");
+		long now = System.currentTimeMillis();
+  		double time = (now - start) / 1000.0;
+		double val1 = 1.0*postive/total;
+		double val2 = 1.0*negative/total;
+		System.out.print("LikelihoodWeighting :  ");
+		System.out.println("<" + String.format("%.8f", val1) + ", " +  String.format("%.8f", val2) + ">" 
+				+"    time : " + String.format("%.8f", time));
 		return Res;
 	}
 
 	// In the Gibbs case, we can keep sign full all the time
 	public int[] GibbsAsk() {
+		long start = System.currentTimeMillis();
 		int [] Res = new int[2];
 		List<String> nonEvidence = new ArrayList<>();
 		for (String var : vars) {
@@ -164,7 +184,7 @@ public class ApproxInferencer {
 		}
 
 		int postive = 0, negative = 0, total = 0;
-		for (int i = 0; i < 50000000; i++) {
+		for (int i = 0; i < interation; i++) {
 			for (String var: nonEvidence) {
 				double p1 = 1.;
 				p1 = getP(var, p1);
@@ -212,7 +232,13 @@ public class ApproxInferencer {
 
 			}
 		}
-		System.out.println("<" + 1.0*postive/total + ", " + 1.0*negative/total + ">");
+		long now = System.currentTimeMillis();
+  		double time = (now - start) / 1000.0;
+		double val1 = 1.0*postive/total;
+		double val2 = 1.0*negative/total;
+		System.out.print("GibbSampling :  ");
+		System.out.println("<" + String.format("%.8f", val1) + ", " +  String.format("%.8f", val2) + ">" 
+				+"    time : " + String.format("%.8f", time));
 		return Res;
 	}	
 

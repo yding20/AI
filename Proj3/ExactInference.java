@@ -33,7 +33,10 @@ public class ExactInference {
 		BayesianNetwork bayesiannetwork = readFile.ReadFile(s1);
 
 		EnumerationAsk test = new EnumerationAsk(bayesiannetwork);
+		long start = System.nanoTime();
   		List<Double> ResDist = test.numerationAsk(X, ObEvi, sign, dogP);
+  		long now = System.nanoTime();
+  		double time = (now - start) / 1000000000.0;
         double val1 = ResDist.get(0);
         double val2 = ResDist.get(1);
         double total = val1 + val2;
@@ -41,6 +44,6 @@ public class ExactInference {
         val2  = val2/(total);
 
         System.out.println("The result ditribution is <" + String.format("%.8f", val1) 
-                    + " " + String.format("%.8f", val2) + " >");
+                    + " " + String.format("%.8f", val2) + " >" + "  time : " + String.format("%.8f", time));
 	}
 }

@@ -9,3 +9,24 @@
 	given it parents times the probability of each child given its respective parents. This probability should be
 	normalized using both A and -A
 	b) no matter A -A the transition P should keep the same
+
+5. submit 
+The file shows how to bulid the project and output of the project. The detailed analysis and demenstation to meet the requirement is explained in the .pdf write up report. The sample outputs are shown in Exact.txt and Appro.txt. Thanks!
+
+Build the Project:
+	Part1 : Exact Inference
+		javac ExactInference.java    (ignore warnings java array generics cast)
+		java ExactInference aima-alarm.xml B J true M true
+		
+		output : The result ditribution is <0.28417184 0.71582816 >  time : 0.00050173
+		More output sample is in Exact.txt
+
+	Part2 : Approximate Inference
+		javac ApproxInferencer.java    (ignore warnings java array generics cast)
+		java ApproxInferencer 10 aima-alarm.xml B J true M true
+
+		output : 
+		RejectionSampling :  <0.00000000, 1.00000000>    time : 0.00200000   total : 49  accepted : 10
+		LikelihoodWeighting :  <0.00000000, 1.00000000>    time : 0.00000000
+		GibbSampling :  <0.30000000, 0.70000000>    time : 0.00000000
+		More output sample is in Exact.txt

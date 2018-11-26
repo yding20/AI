@@ -48,7 +48,7 @@ public class EnumerationAsk {
 	public double enumerationAll(List<String> vars, List<String> ObEvi, Map<String, Boolean> sign) {
 		if (vars.isEmpty())	return 1.0;
 
-		List<String> varsNew = new ArrayList(vars);
+		List<String> varsNew = new ArrayList<>(vars);
 
 		String s = varsNew.remove(0);
 
@@ -94,9 +94,9 @@ public class EnumerationAsk {
 			return p * enumerationAll(varsNew, ObEvi, sign);
 		} else {
 
-			List<String> ObEviNew = new ArrayList(ObEvi);
-			Map<String, Boolean> signNew1 = new HashMap(sign);
-			Map<String, Boolean> signNew2 = new HashMap(sign);
+			List<String> ObEviNew = new ArrayList<>(ObEvi);
+			Map<String, Boolean> signNew1 = new HashMap<>(sign);
+			Map<String, Boolean> signNew2 = new HashMap<>(sign);
 
 			double p1 = 0.;
 			double p2 = 0.;

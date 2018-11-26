@@ -1,0 +1,48 @@
+java ApproxInferencer 10 aima-alarm.xml B J true M true
+RejectionSampling :  <0.00000000, 1.00000000>    time : 0.00200000   total : 49  accepted : 10
+LikelihoodWeighting :  <0.00000000, 1.00000000>    time : 0.00000000
+GibbSampling :  <0.30000000, 0.70000000>    time : 0.00000000
+
+
+java ApproxInferencer 100 aima-alarm.xml B J true M true
+RejectionSampling :  <0.10000000, 0.90000000>    time : 0.03600000   total : 9250  accepted : 100
+LikelihoodWeighting :  <0.00000000, 1.00000000>    time : 0.00200000
+GibbSampling :  <0.27000000, 0.73000000>    time : 0.00200000
+
+
+java ApproxInferencer 1000 aima-alarm.xml B J true M true
+RejectionSampling :  <0.31000000, 0.69000000>    time : 0.10600000   total : 93244  accepted : 1000
+LikelihoodWeighting :  <0.55776892, 0.44223108>    time : 0.01100000
+GibbSampling :  <0.27700000, 0.72300000>    time : 0.01100000
+
+
+java ApproxInferencer 10000 aima-alarm.xml B J true M true
+RejectionSampling :  <0.30700000, 0.69300000>    time : 0.49900000 total : 953986  accepted : 10000
+LikelihoodWeighting :  <0.37926512, 0.62073488>    time : 0.05200000
+GibbSampling :  <0.28880000, 0.71120000>    time : 0.05200000
+
+
+java ApproxInferencer 100000 aima-alarm.xml B J true M true
+RejectionSampling :  <0.27930000, 0.72070000>    time : 2.54200000 total : 9,537,526  accepted : 100,000
+LikelihoodWeighting :  <0.30075012, 0.69924988>    time : 0.14600000
+GibbSampling :  <0.28472000, 0.71528000>    time : 0.29000000
+
+
+java ApproxInferencer 1000000 aima-alarm.xml B J true M true
+RejectionSampling :  <0.28545000, 0.71455000>    time : 21.84700000 total : 96,151,789  accepted : 1,000,000
+LikelihoodWeighting :  <0.29584509, 0.70415491>    time : 0.82200000
+GibbSampling :  <0.28308300, 0.71691700>    time : 0.96300000
+
+
+java ApproxInferencer 10000000 aima-alarm.xml B J true M true
+RejectionSampling :  <0.28455700, 0.71544300>    time : 228.75100000 total : 959584871  accepted : 10000000
+LikelihoodWeighting :  <0.28529831, 0.71470169>    time : 5.32700000
+GibbSampling :  <0.28391210, 0.71608790>    time : 9.05200000
+
+java ApproxInferencer 100000000 aima-alarm.xml B J true M true
+LikelihoodWeighting :  <0.28433320, 0.71566681>    time : 50.96600000
+GibbSampling :  <0.28410701, 0.71589299>    time : 91.63700000
+
+
+
+
